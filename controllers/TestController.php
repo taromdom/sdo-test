@@ -21,7 +21,7 @@ class TestController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['@'], // Для закрытие доступа на тесты
                     ],
                 ],
             ],
@@ -31,12 +31,12 @@ class TestController extends Controller
     public function actionShow($id)
     {
         $model = new TestsAnswers();
-        if( $model->load(Yii::$app->request->post()) )
+        if( $model->load(Yii::$app->request->post()) ) // получаем даные с формы тестов
         {
-            if( $model->save())
+            if( $model->save())// записываем
             {
-                Yii::$app->session->setFlash('success','Данные приняты');
-                return $this->redirect(['result', 'id' => $id]);
+                Yii::$app->session->setFlash('success','Данные приняты');// всплывающее сообщение
+                return $this->redirect(['result', 'id' => $id]);// выводим на вьюшку
             }else{
                 Yii::$app->session->setFlash('error','Ошибка');
 
@@ -51,11 +51,11 @@ class TestController extends Controller
 
     public function actionResult($id)
     {
-        $iduser = \Yii::$app->user->id;
-        $res = TestsAnswers::find()->where(['id_user' => $iduser])->orderBy(['date_time'=>SORT_DESC])->limit(1)->one();
-        $lectArr = Tests::find()->where(['id' => $id])->limit(1)->one();
-        Yii::$app->session->setFlash('success','Данные приняты');
-        return $this->render('result', compact('lectArr','res'));
+        $iduser = \Yii::$app->user->id; // Получаем id пользователя
+        $res = TestsAnswers::find()->where(['id_user' => $iduser])->orderBy(['date_time'=>SORT_DESC])->limit(1)->one(); // Находим ответы юзера и выводим последний через сортировку (не самый лучший вариант)
+        $lectArr = Tests::find()->where(['id' => $id])->limit(1)->one(); //Вопросы и ответы тестов
+        Yii::$app->session->setFlash('success','Данные приняты'); // всплывающее сообщение
+        return $this->render('result', compact('lectArr','res')); // выводим на вьюшку
     }
 
 }

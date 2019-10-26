@@ -17,17 +17,17 @@ class LectureController extends Controller
         $pages = new Pagination(['totalCount' => $countQuery->count(), 'pagesize'=>3]);
         $models = $query->offset($pages->offset)
             ->limit($pages->limit)
-            ->all();
+            ->all();//Находим все лекции 
 
         return $this->render('index', [
             'models' => $models,
             'pages' => $pages,
-        ]);
+        ]); // Для пагинации
     }
 
     public function actionShow($id=null)
     {
-        $lec = Lecture::find()->asArray()->where(['id'=>$id])->limit(1)->one();
+        $lec = Lecture::find()->asArray()->where(['id'=>$id])->limit(1)->one(); //Находим по айди лекцию
         return $this->render('show', compact('lec','id'));
     }
 
