@@ -21,7 +21,7 @@ FROM tests_answers d
  LEFT OUTER JOIN user u ON d.id_user = u.id 
  LEFT OUTER JOIN tests t ON d.id_test = t.id
  LEFT OUTER JOIN lecture l ON t.id_lecture = l.id')
-            ->queryAll();
+            ->queryAll(); // Решил попробывать сделать таким образом, возможно это можно было бы через модель но это пока что не знаю
         //$lectArr = Tests::find()->where(['id' => $id])->limit(1)->one();
         return $this->render('index', compact('res','tes','user','names'));
     }
